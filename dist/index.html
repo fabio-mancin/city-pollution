@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div id="root">
+        <div id="main">
+            <form>
+                <div class="mb-3">
+                    <label for="latitude" class="form-label">Insert your latitude</label>
+                    <input type="text" class="form-control" id="latitude"
+                        placeholder="Latitude">
+                </div>
+                <div class="mb-3">
+                    <label for="longitude" class="form-label">Insert your longitude</label>
+                    <input type="text" class="form-control" id="longitude"
+                        placeholder="Longitude">
+                </div>
+                <button type="button" class="btn btn-secondary" id="get-position">Geolocalize me</button>
+                <button type="button" class="btn btn-secondary" id="get-random">Random place</button>
+                <button type="button" class="btn btn-primary" id="go">GO</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="bundle.js"></script>
+</body>
+
+</html>

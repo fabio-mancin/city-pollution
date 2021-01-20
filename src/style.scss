@@ -1,0 +1,30 @@
+@import "~bootstrap/scss/bootstrap";
+$dark-blue: #222831;
+$grey: #393e46;
+$aqua: #00adb5;
+$light-grey: #eeeeee;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#root {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $dark-blue;
+
+    #main {
+        width: 300px;
+        height: 300px;
+    }
+
+    label {
+        color: $light-grey;
+    }
+}
