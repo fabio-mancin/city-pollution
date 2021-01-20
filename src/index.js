@@ -7,6 +7,8 @@ import _ from 'lodash';
 import './style.css';
 
 document.addEventListener("DOMContentLoaded", function (event) {
+    const axios = require('axios');
+    const API_KEY=process.env.API_KEY;
     const goButton = document.querySelector("#go");
     const getLocationButton = document.querySelector("#get-position");
     const randomButton = document.querySelector("#get-random");
