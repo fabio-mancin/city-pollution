@@ -7,29 +7,39 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css">
 </head>
 
 <body>
     <div id="root">
-        <div class="section">
+        <div class="section search">
+            <h1>Pollution Levels</h1>
             <form>
-                <div class="mb-3">
+                <div class="section-input">
                     <label for="latitude" class="form-label">Insert your latitude</label>
-                    <input type="text" class="form-control" id="latitude"
-                        placeholder="Latitude">
+                    <input type="text" class="form-control coordinates" id="latitude" placeholder="Latitude">
                 </div>
-                <div class="mb-3">
+                <div class="section-input">
                     <label for="longitude" class="form-label">Insert your longitude</label>
-                    <input type="text" class="form-control" id="longitude"
-                        placeholder="Longitude">
+                    <input type="text" class="form-control coordinates" id="longitude" placeholder="Longitude">
                 </div>
-                <button type="button" class="btn btn-secondary" id="get-position">Geolocalize me</button>
-                <button type="button" class="btn btn-secondary" id="get-random">Random place</button>
-                <button type="button" class="btn btn-primary" id="go">GO</button>
+                <div class="section-input">
+                    <label for="station" class="form-label">Closest station:</label>
+                    <textarea type="text" class="form-control" id="station" placeholder="" disabled></textarea>
+                </div>
+                <button type="button" class="btn btn-secondary search-call" id="get-position">Here</button>
+                <button type="button" class="btn btn-secondary search-call" id="get-random">Random</button>
+                <button type="button" class="btn btn-secondary search-call" id="custom">Custom</button>
             </form>
+            <button type="button" class="btn btn-primary scroll" data-direction="down">GO</button>
         </div>
-        <div class="section">
-            <h1>OLALA</h1>
+        <div class="section map">
+            <div class="map navigation">
+                <button type="button" class="btn btn-primary scroll" data-direction="up">Up</button>
+                <button type="button" class="btn btn-secondary" id="switch-map-chart">Forecast Chart</button>
+            </div>
+            <div class="map-chart visible" id="map"></div>
+            <canvas class="map-chart hidden" id="chart"></canvas>
         </div>
     </div>
     <script src="bundle.js"></script>
