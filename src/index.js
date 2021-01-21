@@ -4,28 +4,45 @@ import '@popperjs/core';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import _ from 'lodash';
-import './style.css';
+import tippy from 'tippy.js';
 import Chart from 'chart.js';
+import L from 'leaflet';
+//fixing an issue with leaflet
+//https://github.com/Leaflet/Leaflet/issues/4968#issuecomment-264311098
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+let DefaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow
+});
+L.Marker.prototype.options.icon = DefaultIcon;
+
+import 'tippy.js/themes/light-border.css';
+import 'leaflet/dist/leaflet.css';
+import './style.css';
 
 document.addEventListener("DOMContentLoaded", function (event) {
     const axios = require('axios');
     const API_KEY = process.env.API_KEY;
-    const goButton = document.querySelector("#go");
     const getLocationButton = document.querySelector("#get-position");
-    const randomButton = document.querySelector("#get-random");
+    const randomButtonSelector = document.querySelector("#get-random");
     const latitudeSelector = document.querySelector("#latitude");
     const longitudeSelector = document.querySelector("#longitude");
     const stationSelector = document.querySelector("#station");
-    const allButtonsSelector = document.querySelectorAll(".search-call");
-    const customButton = document.querySelector("#custom");
+    const searchSelector = document.querySelectorAll(".search-call");
+    const customButtonSelector = document.querySelector("#custom");
     const coordinatesSelector = document.querySelectorAll(".coordinates");
-    const mapSection = document.querySelector(".map");
-    const searchSection = document.querySelector(".search");
-    const scrollButton = document.querySelectorAll(".scroll");
-    const switchButton = document.querySelector("#switch-map-chart");
+    const mapSectionSelector = document.querySelector(".map");
+    const searchSectionSelector = document.querySelector(".search");
+    const scrollButtonSelector = document.querySelectorAll(".scroll");
+    const switchButtonSelector = document.querySelector("#switch-map-chart");
+    const todayParagraphSelector = document.querySelector("#today");
+    const ctxSelector = document.getElementById("chart");
+    let chart;
 
+    //set up the map with Leaflet
     function makeMap(lat, lon) {
-        var L = require('leaflet');
+        //var L = require('leaflet');
         var mapContainer = L.DomUtil.get('map');
         if (mapContainer != null) {
             mapContainer._leaflet_id = null;
@@ -39,41 +56,57 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }).addTo(map);
     }
 
+    //call the various functions to use the received data
+    function handleReceivedJSON(json) {
+        const city = _.get(json, "city");
+        const forecast = _.get(json, "forecast.daily");
+        const pmVal = _.get(json, "aqi");
+
+        makeMap(city.geo[0], city.geo[1]);
+        makeChart(forecast);
+
+        stationSelector.value = city.name;
+
+        const todayParagraph = `The average Air Quality Index detected in ${city.name} 
+                                today is <strong>${pmVal}</strong>. 
+                                This is considered <strong>${dangerLevel(pmVal)[1]}</strong>: ${dangerLevel(pmVal)[0].desc}`;
+        todayParagraphSelector.innerHTML = todayParagraph;
+    }
+
+    //actual API call
     function getAirPollution(lat, lon) {
         axios.get(`https://api.waqi.info/feed/geo:
                     ${lat};${lon}/?token=${API_KEY}`)
             .then(function (response) {
-
-                const rawJSON = response.data.data;
-                const city = _.get(rawJSON, "city");
-                makeMap(city.geo[0], city.geo[1]);
-                const forecast = _.get(rawJSON, "forecast.daily.pm10");
-                makeChart(forecast);
-                stationSelector.value = city.name;
-                console.log(rawJSON);
+                //handle successful request
+                handleReceivedJSON(response.data.data);
+                console.info(`Data received correctly.`)   
             })
             .catch(function (error) {
                 // handle error
-                console.log(error);
+                console.error(`An error occurred when fetching data from remote server: ${error}`);
             })
             .then(function () {
                 /*disabling the buttons for 3 seconds after each call
                   to avoid API abuse*/
-                allButtonsSelector.forEach(button =>
+                searchSelector.forEach(button =>
                     button.classList.add("disabled"));
                 setTimeout(() => {
-                    allButtonsSelector.forEach(button =>
+                    searchSelector.forEach(button =>
                         button.classList.remove("disabled"));
                 }, 3000);
             });
     };
 
-    customButton.addEventListener("click", function (e) {
+    //loading custom coordinates
+    customButtonSelector.addEventListener("click", function (e) {
         let latitude = latitudeSelector.value;
         let longitude = longitudeSelector.value;
+        //making sure the inputs are both filled before calling the api
         if (latitude.length !== 0 && longitude.length !== 0) {
             getAirPollution(latitude, longitude);
         } else {
+            //if they aren't, relative inputs blink red
             coordinatesSelector.forEach(e => e.classList.add("blink"));
             setTimeout(() => {
                 coordinatesSelector.forEach(e =>
@@ -83,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         this.blur();
     })
 
+    //geolocalizing the user and using the coordinates
     getLocationButton.addEventListener("click", function (e) {
         navigator.geolocation.getCurrentPosition((position) => {
             latitudeSelector.value = position.coords.latitude;
@@ -92,7 +126,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
         this.blur();
     })
 
-    randomButton.addEventListener("click", function (e) {
+    //generating random coordinates
+    randomButtonSelector.addEventListener("click", function (e) {
         function randomPlace() {
             let latitude = Math.random() * 91;
             let longitude = Math.random() * 181;
@@ -105,26 +140,27 @@ document.addEventListener("DOMContentLoaded", function (event) {
     })
 
     //scroll the view between 
-    scrollButton.forEach(b => {
+    scrollButtonSelector.forEach(b => {
         b.addEventListener("click", function () {
             if (this.dataset.direction === "down")
-                mapSection.scrollIntoView();
+                mapSectionSelector.scrollIntoView();
             else
-                searchSection.scrollIntoView();
+                searchSectionSelector.scrollIntoView();
             this.blur();
         })
     })
 
+    //overflow is hidden, this makes mousewheel work
     window.addEventListener("wheel", e => {
-        if (e.deltaY === 100) mapSection.scrollIntoView();
-        if (e.deltaY === -100) searchSection.scrollIntoView();
+        if (e.deltaY === 100) mapSectionSelector.scrollIntoView();
+        if (e.deltaY === -100) searchSectionSelector.scrollIntoView();
     });
 
     /*
     window.addEventListener("scroll", e => {
         console.log(e)
-        if (e.deltaY === 100) mapSection.scrollIntoView();
-        if (e.deltaY === -100) searchSection.scrollIntoView();
+        if (e.deltaY === 100) mapSectionSelector.scrollIntoView();
+        if (e.deltaY === -100) searchSectionSelector.scrollIntoView();
     });*/
 
     //returns the danger level of given pm10 value
@@ -133,50 +169,63 @@ document.addEventListener("DOMContentLoaded", function (event) {
             "good": {
                 values: [0, 50],
                 color: "rgba(128, 255, 128, 0.5)",
-                desc: "Air quality is considered satisfactory, and air pollution poses little or no risk."
+                desc: "air quality is considered satisfactory, and air pollution poses little or no risk."
             },
             "moderate": {
                 values: [51, 100],
                 color: "rgba(255, 255, 102, 0.5)",
-                desc: "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution."
+                desc: "air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution."
             },
             "poor": {
                 values: [101, 150],
                 color: "rgba(255, 163, 102, 0.5)",
-                desc: "Members of sensitive groups may experience health effects. The general public is not likely to be affected."
+                desc: "members of sensitive groups may experience health effects. The general public is not likely to be affected."
             },
             "unhealthy": {
                 values: [151, 200],
                 color: "rgba(255, 26, 26, 0.5)",
-                desc: "Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects."
+                desc: "everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects."
             },
             "very unhealthy": {
                 values: [201, 300],
                 color: "rgba(102, 0, 77, 0.5)",
-                desc: "Health warnings of emergency conditions. The entire population is more likely to be affected."
+                desc: "health warnings of emergency conditions. The entire population is more likely to be affected."
             },
             "hazardous": {
                 values: [301, 500],
                 color: "rgb(77, 0, 0, 0.5)",
-                desc: "Health alert: everyone may experience more serious health effects."
+                desc: "health alert: everyone may experience more serious health effects."
             },
         }
-        const level = _.find(ranges, (e) =>
-            pmVal >= e.values[0] && pmVal <= e.values[1]);
-        return level;
+        const level = _.find(ranges, e => pmVal >= e.values[0] && pmVal <= e.values[1]);
+        const rating = _.findKey(ranges, e => pmVal >= e.values[0] && pmVal <= e.values[1])
+        return [level, rating];
     }
 
+    //creates the forecast chart from received data
     function makeChart(forecastData) {
-        var ctx = document.getElementById("chart");
-        ctx.style.backgroundColor = 'rgba(0,0,0,0.1)';
-        new Chart(ctx, {
+        //utility function to get the average from an array of values
+        const arrayAverage = array => array.reduce((a, b) => a + b, 0) / array.length;
+        //and a quite convoluted way to get average values from received data
+        const minLength = Math.min(..._.values(forecastData).map(a => a.length));
+        const days = _.values(forecastData).map(a => a.map(e => e.day)).map(p => _.dropRight(p, p.length - minLength))[0].map(e => e.slice(-5));
+        const arrayOfData = _.zip(..._.values(forecastData).map(e => _.dropRight(e, e.length - minLength)).map(v => v.map(p => p.avg))).map(q => arrayAverage(q))
+
+        //if a new chart is drawn on top of an existing one the graphics glitch
+        //so I just destroy it if it exists
+        if (chart !== undefined) {
+            chart.destroy();
+        }
+
+        //calling ChartJS to create the chart
+        chart = new Chart(ctxSelector, {
             type: 'bar',
             data: {
-                labels: forecastData.map(e => e.day.slice(-5)),
+                labels: days,
                 datasets: [{
-                    label: "Average PM10 Level",
-                    data: forecastData.map(e => e.avg),
-                    backgroundColor: forecastData.map(e => dangerLevel(e.avg).color)
+                    label: "Average AQI Forecast",
+                    data: arrayOfData,
+                    backgroundColor: arrayOfData.map(e => dangerLevel(e)[0].color)
                 }]
             },
             options: {
@@ -184,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                     display: true,
                     position: 'top',
                     labels: {
-                        boxWidth: 80,
+                        boxWidth: 40,
                         fontColor: 'white'
                     }
                 },
@@ -205,7 +254,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
         });
     }
 
-    switchButton.addEventListener("click", function () {
+    //handles the switch between visualization of map and chart
+    switchButtonSelector.addEventListener("click", function () {
         document.querySelectorAll(".map-chart").forEach(e => {
             let classes = e.classList;
             if (classes.contains("visible"))
@@ -215,5 +265,30 @@ document.addEventListener("DOMContentLoaded", function (event) {
         this.innerHTML === "Map" ?
             this.innerHTML = "Forecast Chart" : this.innerHTML = "Map";
         this.blur();
+    });
+
+    //tooltips
+    tippy.setDefaultProps({
+        delay: 600,
+        theme: 'light-border'
+    });
+
+    tippy('#custom', {
+        content: 'Load the provided coordinates.',
+    });
+    tippy('#get-random', {
+        content: 'Load random coordinates.',
+    });
+    tippy('#get-position', {
+        content: 'Geolocalize this computer.',
+    });
+    tippy('.scroll[data-direction="down"]', {
+        content: "Let's see the data!",
+    });
+    tippy('.scroll[data-direction="up"]', {
+        content: "Go back to search!",
+    });
+    tippy('#switch-map-chart', {
+        content: "Switch between map and forecast chart.",
     });
 });

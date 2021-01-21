@@ -25,8 +25,10 @@
     "bootstrap": "^5.0.0-beta1",
     "chart.js": "^2.9.4",
     "dotenv": "^8.2.0",
+    "file-loader": "^6.2.0",
     "jquery": "^3.5.1",
     "leaflet": "^1.7.1",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "tippy.js": "^6.2.7"
   }
 }
