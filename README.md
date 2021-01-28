@@ -1,4 +1,5 @@
 [![Contributors][contributors-shield]][contributors-url]
+[![Issues][issues-shield]][issues-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![MIT License][license-shield]][license-url]
@@ -125,15 +126,15 @@ Portfolio: [fabiomancin.org](https://fabiomancin.org)
 * [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 * [Abstract vector created by vectorjuice - www.freepik.com](https://www.freepik.com/vectors/abstract)
 
-[contributors-shield]: https://img.shields.io/github/contributors/fabio-mancin/repo.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/fabio-mancin/city-pollution?style=for-the-badge
 [contributors-url]: https://github.com/fabio-mancin/city-pollution/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/fabio-mancin/repo.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/fabio-mancin/city-pollution?style=for-the-badge
 [forks-url]: https://github.com/fabio-mancin/city-pollution/network/members
-[stars-shield]: https://img.shields.io/github/stars/fabio-mancin/repo.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/fabio-mancin/city-pollution?style=for-the-badge
 [stars-url]: https://github.com/fabio-mancin/city-pollution/stargazers
-[issues-shield]: https://img.shields.io/github/issues/fabio-mancin/repo.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/fabio-mancin/city-pollution?style=for-the-badge
 [issues-url]: https://github.com/fabio-mancin/city-pollution/issues
-[license-shield]: https://img.shields.io/github/license/fabio-mancin/repo.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/fabio-mancin/city-pollution?style=for-the-badge
 [license-url]: https://github.com/fabio-mancin/repo/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/fabio-mancin
