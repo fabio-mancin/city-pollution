@@ -11,7 +11,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/fabio-mancin/city-pollution">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <a href="https://www.freepik.com/vectors/abstract">Abstract vector created by vectorjuice - www.freepik.com<img src="dist/logo.png" alt="Logo" width="80" height="80"></a>
   </a>
 
   <h3 align="center">City Pollution</h3>
@@ -65,16 +65,18 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`fabio-mancin`, `city-pollution`, `Fabio__Mancio`, `fabio.mancin90 at gmail dot com`, `City Pollution`, `Get AQI data for a location.`
-
 
 ### Built With
 
-* []()
-* []()
-* []()
+* [jQuery](https://jquery.com/)
+* [Bootstrap](https://getbootstrap.com/)
+* [Popper](https://popper.js.org/)
+* [Lodash](https://lodash.com/)
+* [Chart JS](https://www.chartjs.org/)
+* [Leaflet](https://leafletjs.com/)
+* [Tippy.js](https://atomiks.github.io/tippyjs/)
+* [Axios](https://github.com/axios/axios)
+* [Dotenv](https://github.com/motdotla/dotenv)
 
 
 
