@@ -1,11 +1,9 @@
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-<!-- PROJECT LOGO -->
 <br />
 <p align="center">
   <a href="https://github.com/fabio-mancin/city-pollution">
@@ -19,7 +17,6 @@
   </p>
 </p>
 
-<!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
@@ -37,15 +34,12 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
-<!-- ABOUT THE PROJECT -->
 ## About The Project
 
 ![Product Name Screen Shot](dist/screenshot.png)
@@ -62,13 +56,11 @@
 * [Axios](https://github.com/axios/axios)
 * [Dotenv](https://github.com/motdotla/dotenv)
 
-<!-- GETTING STARTED -->
 ## Getting Started
 
 To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
-
 
 * npm
 
@@ -78,7 +70,7 @@ To get a local copy up and running follow these simple steps.
 
 ### Installation
 
-1. Clone the repo
+1. Clone the repository
 
    ```sh
    git clone https://github.com/fabio-mancin/city-pollution.git
@@ -104,7 +96,6 @@ To get a local copy up and running follow these simple steps.
    API_KEY = 'ENTER YOUR API'
    ```
 
-<!-- USAGE EXAMPLES -->
 ## Usage
 
 The here button geolocalizes the current position and puts the relative coordinates in their fields.
@@ -117,34 +108,31 @@ The API finds the station that is closest to the chosen coordinates and returns 
 
 The GO button shows where the station is on a map, an Air Quality forecast chart and a quick comment about the current Air Quality level.
 
-<!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-<!-- CONTACT -->
 ## Contact
 
-Your Name - [@Fabio__Mancio](https://twitter.com/Fabio__Mancio) - fabio.mancin90 at gmail dot com
+Fabio Mancin - [@Fabio__Mancio](https://twitter.com/Fabio__Mancio) - fabio.mancin90 at gmail dot com
 
-Project Link: [https://github.com/fabio-mancin/city-pollution](https://github.com/fabio-mancin/city-pollution)
+Project Link: [City Pollution](https://github.com/fabio-mancin/city-pollution)
 
-<!-- ACKNOWLEDGEMENTS -->
+Portfolio: [fabiomancin.org](https://fabiomancin.org)
+
 ## Acknowledgements
 
 * [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 * [Abstract vector created by vectorjuice - www.freepik.com](https://www.freepik.com/vectors/abstract)
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/fabio-mancin/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/fabio-mancin/repo/graphs/contributors
+[contributors-url]: https://github.com/fabio-mancin/city-pollution/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/fabio-mancin/repo.svg?style=for-the-badge
-[forks-url]: https://github.com/fabio-mancin/repo/network/members
+[forks-url]: https://github.com/fabio-mancin/city-pollution/network/members
 [stars-shield]: https://img.shields.io/github/stars/fabio-mancin/repo.svg?style=for-the-badge
-[stars-url]: https://github.com/fabio-mancin/repo/stargazers
+[stars-url]: https://github.com/fabio-mancin/city-pollution/stargazers
 [issues-shield]: https://img.shields.io/github/issues/fabio-mancin/repo.svg?style=for-the-badge
-[issues-url]: https://github.com/fabio-mancin/repo/issues
+[issues-url]: https://github.com/fabio-mancin/city-pollution/issues
 [license-shield]: https://img.shields.io/github/license/fabio-mancin/repo.svg?style=for-the-badge
 [license-url]: https://github.com/fabio-mancin/repo/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
