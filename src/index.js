@@ -23,26 +23,9 @@ import 'leaflet/dist/leaflet.css';
 import './style.css';
 
 document.addEventListener("DOMContentLoaded", function (event) {
-    const getLocationButton = document.querySelector("#get-position");
-    const randomButtonSelector = document.querySelector("#get-random");
-    const latitudeSelector = document.querySelector("#latitude");
-    const longitudeSelector = document.querySelector("#longitude");
-    const stationSelector = document.querySelector("#station");
-    const customButtonSelector = document.querySelector("#custom");
-    const mapSectionSelector = document.querySelector(".map");
-    const searchSectionSelector = document.querySelector(".search");
-    const switchButtonSelector = document.querySelector("#switch-map-chart");
-    const todayParagraphSelector = document.querySelector("#today");
-    const ctxSelector = document.querySelector("#chart");
-    const searchSelector = document.querySelectorAll(".search-call");
-    const coordinatesSelector = document.querySelectorAll(".coordinates");
-    const scrollButtonSelector = document.querySelectorAll(".scroll");
-
-    let chart;
 
     //set up the map with Leaflet
     function makeMap(lat, lon) {
-        //var L = require('leaflet');
         var mapContainer = L.DomUtil.get('map');
         if (mapContainer != null) {
             mapContainer._leaflet_id = null;
@@ -58,15 +41,24 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     //call the various functions to use the received data
     function handleReceivedJSON(json) {
+        const stationSelector = document.querySelector("#station");
+        const todayParagraphSelector = document.querySelector("#today");
+        //getting the city the station is in..
         const city = _.get(json, "city");
+        //..the forecast for the coming days..
         const forecast = _.get(json, "forecast.daily");
+        //..and today's value
         const pmVal = _.get(json, "aqi");
 
+        //sending the coordinates to the map function
         makeMap(city.geo[0], city.geo[1]);
+        //initializing the chart with forecast data
         makeChart(forecast);
 
+        //showing the station name on the page
         stationSelector.value = city.name;
 
+        //showing today's data in the second section
         const todayParagraph = `The average Air Quality Index detected in ${city.name} 
                                 today is <strong>${pmVal}</strong>. 
                                 This is considered <strong>${dangerLevel(pmVal)[1]}</strong>: ${dangerLevel(pmVal)[0].desc}`;
@@ -75,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     //actual API call
     function getAirPollution(lat, lon) {
+        const searchSelector = document.querySelectorAll(".search-call");
         //retrieving the API KEY from the environment
         const API_KEY = process.env.API_KEY;
         axios.get(`https://api.waqi.info/feed/geo:
@@ -101,7 +94,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     };
 
     //loading custom coordinates
+    const latitudeSelector = document.querySelector("#latitude");
+    const longitudeSelector = document.querySelector("#longitude");
+    const customButtonSelector = document.querySelector("#custom");
     customButtonSelector.addEventListener("click", function (e) {
+        const coordinatesSelector = document.querySelectorAll(".coordinates");
         let latitude = latitudeSelector.value;
         let longitude = longitudeSelector.value;
         //making sure the inputs are both filled before calling the api
@@ -119,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     })
 
     //geolocalizing the user and using the coordinates
+    const getLocationButton = document.querySelector("#get-position");
     getLocationButton.addEventListener("click", function (e) {
         navigator.geolocation.getCurrentPosition((position) => {
             latitudeSelector.value = position.coords.latitude;
@@ -129,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     })
 
     //generating random coordinates
+    const randomButtonSelector = document.querySelector("#get-random");
     randomButtonSelector.addEventListener("click", function (e) {
         function randomPlace() {
             let latitude = Math.random() * 91;
@@ -142,6 +141,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
     })
 
     //scroll the view between 
+    const mapSectionSelector = document.querySelector(".map");
+    const searchSectionSelector = document.querySelector(".search");
+    const scrollButtonSelector = document.querySelectorAll(".scroll");
     scrollButtonSelector.forEach(b => {
         b.addEventListener("click", function () {
             if (this.dataset.direction === "down")
@@ -154,16 +156,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     //overflow is hidden, this makes mousewheel work
     window.addEventListener("wheel", e => {
-        if (e.deltaY === 100) mapSectionSelector.scrollIntoView();
-        if (e.deltaY === -100) searchSectionSelector.scrollIntoView();
+        if (e.deltaY > 0) mapSectionSelector.scrollIntoView();
+        if (e.deltaY < 0) searchSectionSelector.scrollIntoView();
     });
 
-    /*
+    //for mobile compatibility, untested
     window.addEventListener("scroll", e => {
-        console.log(e)
-        if (e.deltaY === 100) mapSectionSelector.scrollIntoView();
-        if (e.deltaY === -100) searchSectionSelector.scrollIntoView();
-    });*/
+        if (e.deltaY > 0) mapSectionSelector.scrollIntoView();
+        if (e.deltaY < 0) searchSectionSelector.scrollIntoView();
+    });
 
     //returns the danger level of given pm10 value
     function dangerLevel(pmVal) {
@@ -204,6 +205,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
         return [level, rating];
     }
 
+    //I need this on the outer scope because it needs to be set to handle subsequent chart initializations
+    let chart;
     //creates the forecast chart from received data
     function makeChart(forecastData) {
         //utility function to get the average from an array of values
@@ -231,6 +234,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
         //calling ChartJS to create the chart
+        const ctxSelector = document.querySelector("#chart");
         chart = new Chart(ctxSelector, {
             type: 'bar',
             data: {
@@ -268,6 +272,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     //handles the switch between visualization of map and chart
+    const switchButtonSelector = document.querySelector("#switch-map-chart");
     switchButtonSelector.addEventListener("click", function () {
         document.querySelectorAll(".map-chart").forEach(e => {
             let classes = e.classList;
@@ -281,27 +286,30 @@ document.addEventListener("DOMContentLoaded", function (event) {
     });
 
     //tooltips
-    tippy.setDefaultProps({
-        delay: 600,
-        theme: 'light-border'
-    });
-
-    tippy('#custom', {
-        content: 'Load the provided coordinates.',
-    });
-    tippy('#get-random', {
-        content: 'Load random coordinates.',
-    });
-    tippy('#get-position', {
-        content: 'Geolocalize this computer.',
-    });
-    tippy('.scroll[data-direction="down"]', {
-        content: "Let's see the data!",
-    });
-    tippy('.scroll[data-direction="up"]', {
-        content: "Go back to search!",
-    });
-    tippy('#switch-map-chart', {
-        content: "Switch between map and forecast chart.",
-    });
+    function setTooltips() {
+        tippy.setDefaultProps({
+            delay: 600,
+            theme: 'light-border'
+        });
+    
+        tippy('#custom', {
+            content: 'Load the provided coordinates.',
+        });
+        tippy('#get-random', {
+            content: 'Load random coordinates.',
+        });
+        tippy('#get-position', {
+            content: 'Geolocalize this computer.',
+        });
+        tippy('.scroll[data-direction="down"]', {
+            content: "Let's see the data!",
+        });
+        tippy('.scroll[data-direction="up"]', {
+            content: "Go back to search!",
+        });
+        tippy('#switch-map-chart', {
+            content: "Switch between map and forecast chart.",
+        });
+    }
+    setTooltips();
 });
