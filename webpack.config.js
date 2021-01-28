@@ -1,5 +1,4 @@
 const path = require('path');
-
 module.exports = env => {
   const Dotenv = require('dotenv-webpack');
 

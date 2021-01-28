@@ -7,6 +7,7 @@ import _ from 'lodash';
 import tippy from 'tippy.js';
 import Chart from 'chart.js';
 import L from 'leaflet';
+import axios from 'axios';
 //fixing an issue with leaflet
 //https://github.com/Leaflet/Leaflet/issues/4968#issuecomment-264311098
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -22,22 +23,21 @@ import 'leaflet/dist/leaflet.css';
 import './style.css';
 
 document.addEventListener("DOMContentLoaded", function (event) {
-    const axios = require('axios');
-    const API_KEY = process.env.API_KEY;
     const getLocationButton = document.querySelector("#get-position");
     const randomButtonSelector = document.querySelector("#get-random");
     const latitudeSelector = document.querySelector("#latitude");
     const longitudeSelector = document.querySelector("#longitude");
     const stationSelector = document.querySelector("#station");
-    const searchSelector = document.querySelectorAll(".search-call");
     const customButtonSelector = document.querySelector("#custom");
-    const coordinatesSelector = document.querySelectorAll(".coordinates");
     const mapSectionSelector = document.querySelector(".map");
     const searchSectionSelector = document.querySelector(".search");
-    const scrollButtonSelector = document.querySelectorAll(".scroll");
     const switchButtonSelector = document.querySelector("#switch-map-chart");
     const todayParagraphSelector = document.querySelector("#today");
-    const ctxSelector = document.getElementById("chart");
+    const ctxSelector = document.querySelector("#chart");
+    const searchSelector = document.querySelectorAll(".search-call");
+    const coordinatesSelector = document.querySelectorAll(".coordinates");
+    const scrollButtonSelector = document.querySelectorAll(".scroll");
+
     let chart;
 
     //set up the map with Leaflet
@@ -75,12 +75,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     //actual API call
     function getAirPollution(lat, lon) {
+        //retrieving the API KEY from the environment
+        const API_KEY = process.env.API_KEY;
         axios.get(`https://api.waqi.info/feed/geo:
                     ${lat};${lon}/?token=${API_KEY}`)
             .then(function (response) {
                 //handle successful request
                 handleReceivedJSON(response.data.data);
-                console.info(`Data received correctly.`)   
+                console.info(`Data received correctly.`)
             })
             .catch(function (error) {
                 // handle error
@@ -206,11 +208,22 @@ document.addEventListener("DOMContentLoaded", function (event) {
     function makeChart(forecastData) {
         //utility function to get the average from an array of values
         const arrayAverage = array => array.reduce((a, b) => a + b, 0) / array.length;
-        //and a quite convoluted way to get average values from received data
-        const minLength = Math.min(..._.values(forecastData).map(a => a.length));
-        const days = _.values(forecastData).map(a => a.map(e => e.day)).map(p => _.dropRight(p, p.length - minLength))[0].map(e => e.slice(-5));
-        const arrayOfData = _.zip(..._.values(forecastData).map(e => _.dropRight(e, e.length - minLength)).map(v => v.map(p => p.avg))).map(q => arrayAverage(q))
 
+        //data is returned as object, making it an array for easy parsing
+        const iterableForecastData = Object.entries(forecastData).map(e=>e[1]);
+        //forecast data isn't always consistent in terms of how many days are predicted, getting the shortest value to avoid errors in future parsing
+        const shortestForecast = Math.min(...iterableForecastData.map(e=>e.length));
+        //and returning consistent data
+        const consistentForecastData = iterableForecastData.map(e=>e.slice(0,shortestForecast));
+
+        //getting an array of days from the first array
+        const days = consistentForecastData[0].map(e=>e.day.slice(5));
+
+        //getting the average of each relevation type for each day..
+        const averageParticles = consistentForecastData.map(a=>a.map(e=>e.avg));
+        //..and compressing those values so I get an array of values per day that gets averaged via the utility function
+        const totalAveragePerDay = _.zip(...averageParticles).map(e=>arrayAverage(e));
+       
         //if a new chart is drawn on top of an existing one the graphics glitch
         //so I just destroy it if it exists
         if (chart !== undefined) {
@@ -224,8 +237,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 labels: days,
                 datasets: [{
                     label: "Average AQI Forecast",
-                    data: arrayOfData,
-                    backgroundColor: arrayOfData.map(e => dangerLevel(e)[0].color)
+                    data: totalAveragePerDay,
+                    backgroundColor: totalAveragePerDay.map(e => dangerLevel(e)[0].color)
                 }]
             },
             options: {
