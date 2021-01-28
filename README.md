@@ -5,32 +5,19 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
   <a href="https://github.com/fabio-mancin/city-pollution">
-    <a href="https://www.freepik.com/vectors/abstract">Abstract vector created by vectorjuice - www.freepik.com<img src="dist/logo.png" alt="Logo" width="80" height="80"></a>
+    <img src="dist/logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">City Pollution</h3>
 
   <p align="center">
     Get AQI data for a location.
-    <br />
-    <a href="https://github.com/fabio-mancin/city-pollution"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/fabio-mancin/city-pollution">View Demo</a>
-    ·
-    <a href="https://github.com/fabio-mancin/city-pollution/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/fabio-mancin/city-pollution/issues">Request Feature</a>
   </p>
 </p>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -58,13 +45,10 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
+![Product Name Screen Shot](dist/screenshot.png)
 
 ### Built With
 
@@ -78,8 +62,6 @@
 * [Axios](https://github.com/axios/axios)
 * [Dotenv](https://github.com/motdotla/dotenv)
 
-
-
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -87,8 +69,9 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+
 * npm
+
   ```sh
   npm install npm@latest -g
   ```
@@ -96,51 +79,48 @@ This is an example of how to list things you need to use the software and how to
 ### Installation
 
 1. Clone the repo
+
    ```sh
    git clone https://github.com/fabio-mancin/city-pollution.git
    ```
+
 2. Install NPM packages
+
    ```sh
    npm install
    ```
 
+3. Build from source
 
+   ```sh
+   npm run build
+   ```
+
+4. Get a free API key at [Air Quality Open Data Platform](https://aqicn.org/data-platform/token/#/)
+
+5. Create a .env file in root folder with just one line:
+
+   ```sh
+   API_KEY = 'ENTER YOUR API'
+   ```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+The here button geolocalizes the current position and puts the relative coordinates in their fields.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+Random chooses a random location on earth.
 
+Custom lets the user insert his own custom coordinates.
 
+The API finds the station that is closest to the chosen coordinates and returns some data.
 
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/fabio-mancin/city-pollution/issues) for a list of proposed features (and known issues).
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
+The GO button shows where the station is on a map, an Air Quality forecast chart and a quick comment about the current Air Quality level.
 
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-
 
 <!-- CONTACT -->
 ## Contact
@@ -149,18 +129,11 @@ Your Name - [@Fabio__Mancio](https://twitter.com/Fabio__Mancio) - fabio.mancin90
 
 Project Link: [https://github.com/fabio-mancin/city-pollution](https://github.com/fabio-mancin/city-pollution)
 
-
-
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* []()
-* []()
-* []()
-
-
-
-
+* [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+* [Abstract vector created by vectorjuice - www.freepik.com](https://www.freepik.com/vectors/abstract)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
