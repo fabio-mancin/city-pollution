@@ -125,6 +125,7 @@ Portfolio: [fabiomancin.org](https://fabiomancin.org)
 
 * [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 * [Abstract vector created by vectorjuice - www.freepik.com](https://www.freepik.com/vectors/abstract)
+* [Air Pollution: Real-time Air Quality Index (AQI)](https://aqicn.org/)
 
 [contributors-shield]: https://img.shields.io/github/contributors/fabio-mancin/city-pollution?style=for-the-badge
 [contributors-url]: https://github.com/fabio-mancin/city-pollution/graphs/contributors
