@@ -45,6 +45,12 @@
 
 ![Product Name Screen Shot](dist/screenshot.png)
 
+This is a a simple web app that fetches Air Quality Index data from [AQICN](aqicn.org) via their free [API](https://aqicn.org/api/) and displays it.
+
+The user can use the current geolocalized position, get a random one or manually insert coordinates.
+
+The API fetches data from the station that is nearest to the selected coordinates and shows a local map (screenshot above) and a forecast chart.
+
 ### Built With
 
 * [jQuery](https://jquery.com/)
@@ -91,7 +97,7 @@ To get a local copy up and running follow these simple steps.
 
 4. Get a free API key at [Air Quality Open Data Platform](https://aqicn.org/data-platform/token/#/)
 
-5. Create a .env file in root folder with just one line:
+5. Create a .env file in the root folder with just one line:
 
    ```sh
    API_KEY = 'ENTER YOUR API'
