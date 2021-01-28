@@ -97,6 +97,8 @@ To get a local copy up and running follow these simple steps.
    API_KEY = 'ENTER YOUR API'
    ```
 
+6. Open dist/index.html
+
 ## Usage
 
 The here button geolocalizes the current position and puts the relative coordinates in their fields.
