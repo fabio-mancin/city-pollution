@@ -7,10 +7,11 @@ module.exports = env => {
   return {
     mode: 'development',
     watch: true,
-    entry: path.resolve(__dirname, './src') + '/index.js',
+    entry: './src/index.js',
     output: {
       filename: 'bundle.js',
-      path: path.resolve(__dirname, './build'),
+      publicPath: '/',
+      path: path.resolve(__dirname, 'build'),
     },
     module: {
       rules: [{
@@ -25,7 +26,7 @@ module.exports = env => {
       new Dotenv(),
       new HtmlWebpackPlugin({
         inject: true,
-        template:  path.resolve('./index.html'),
+        template:  path.resolve('./dist/index.html'),
     }),
     ]
   };
