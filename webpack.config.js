@@ -5,7 +5,7 @@ module.exports = env => {
   return {
     mode: 'development',
     watch: true,
-    entry: path.resolve(__dirname, 'src') + 'index.js',
+    entry: path.resolve(__dirname, 'src') + '/index.js',
     output: {
       filename: 'bundle.js',
       path: path.resolve(__dirname, 'dist'),
