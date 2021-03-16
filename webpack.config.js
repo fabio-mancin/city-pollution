@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = env => {
@@ -24,7 +23,6 @@ module.exports = env => {
     },
     plugins: [
       new Dotenv(),
-      new webpack.optimize.UglifyJsPlugin(),
       new HtmlWebpackPlugin({
         inject: true,
         template:  path.resolve('./index.html'),
