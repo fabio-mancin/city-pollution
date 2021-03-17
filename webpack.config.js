@@ -1,6 +1,4 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 module.exports = env => {
   const Dotenv = require('dotenv-webpack');
 
@@ -10,8 +8,7 @@ module.exports = env => {
     entry: './src/index.js',
     output: {
       filename: 'bundle.js',
-      publicPath: '/',
-      path: path.resolve(__dirname, 'build'),
+      path: path.resolve(__dirname, 'dist'),
     },
     module: {
       rules: [{
@@ -23,11 +20,7 @@ module.exports = env => {
       }],
     },
     plugins: [
-      new Dotenv(),
-      new HtmlWebpackPlugin({
-        inject: true,
-        template:  path.resolve('./dist/index.html'),
-    }),
+      new Dotenv()
     ]
   };
 };
