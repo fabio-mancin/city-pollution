@@ -1,0 +1,4 @@
+node_modules
+.env
+.sass-cache
+dist/bundle.js

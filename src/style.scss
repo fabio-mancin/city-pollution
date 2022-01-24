@@ -1,0 +1,153 @@
+$dark-blue: #222831;
+$grey: #393e46;
+$aqua: #00adb5;
+$light-grey: #eeeeee;
+
+@mixin x-small {
+    @media (max-width: 321px) {
+        @content;
+    }
+}
+
+@mixin for-phone-only {
+    @media (max-width: 639px) {
+        @content;
+    }
+}
+
+@mixin for-tablet-portrait-up {
+    @media (min-width: 640px) {
+        @content;
+    }
+}
+
+@mixin for-tablet-landscape-up {
+    @media (min-width: 768px) {
+        @content;
+    }
+}
+
+@mixin for-desktop-up {
+    @media (min-width: 1200px) {
+        @content;
+    }
+}
+
+@mixin for-big-desktop-up {
+    @media (min-width: 1800px) {
+        @content;
+    }
+}
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+}
+
+#root {
+    width: 100vw;
+    height: 200vh;
+    @include flex-center;
+    flex-direction: column;
+    background-color: $dark-blue;
+
+    .section {
+        @include flex-center;
+        flex-direction: column;
+        width: 90%;
+        height: 100vh;
+
+        &-input {
+            margin-bottom: 5px;
+        }
+        @include for-tablet-portrait-up {
+            text-align: center;
+        }
+        button {
+            width: 32%;
+            text-align: center;
+            margin-bottom: 5px;
+            @include for-tablet-portrait-up {
+                width: 50%;
+            }
+        }
+
+        textarea {
+            height: 10ch;
+        }
+
+        form {
+            width: 90%;
+        }
+
+        .map-chart {
+            width: 100%;
+            height: 40%;
+            max-width: 600px;
+            @include flex-center;
+            @include for-tablet-portrait-up {
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+        }
+
+        #chart {
+            width: 100%;
+            height: 40%;
+        }
+        
+        .navigation {
+            @include flex-center;
+            flex-direction: row;
+            width: 100%;
+            @include for-tablet-portrait-up {
+                width: 50%;
+            }
+            button {
+                margin: 2px;
+                width: 50%;
+            }
+        }
+    }
+
+    label,
+    h1,
+    p {
+        color: $light-grey;
+    }
+}
+
+@keyframes blink {
+
+    from,
+    to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-width: 2px;
+        border-color: red;
+    }
+}
+
+.blink {
+    animation: blink 0.5s step-end 5;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: initial;
+}

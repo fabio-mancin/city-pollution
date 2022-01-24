@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Air Quality Index</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div id="root">
+        <div class="section search">
+            <h1>Air Quality Index</h1>
+            <form>
+                <div class="section-input">
+                    <label for="latitude" class="form-label">Insert your latitude</label>
+                    <input type="text" class="form-control coordinates" id="latitude" placeholder="Latitude">
+                </div>
+                <div class="section-input">
+                    <label for="longitude" class="form-label">Insert your longitude</label>
+                    <input type="text" class="form-control coordinates" id="longitude" placeholder="Longitude">
+                </div>
+                <div class="section-input">
+                    <label for="station" class="form-label">Closest station:</label>
+                    <textarea type="text" class="form-control" id="station" placeholder="" disabled></textarea>
+                </div>
+                <button type="button" class="btn btn-warning search-call" id="get-position">Here</button>
+                <button type="button" class="btn btn-info search-call" id="get-random">Random</button>
+                <button type="button" class="btn btn-light search-call" id="custom">Custom</button>
+            </form>
+            <button type="button" class="btn btn-primary scroll" data-direction="down">GO</button>
+        </div>
+        <div class="section map">
+            <div class="map navigation">
+                <button type="button" class="btn btn-primary scroll" data-direction="up">Up</button>
+                <button type="button" class="btn btn-secondary" id="switch-map-chart">Forecast Chart</button>
+            </div>
+            <div class="map-chart visible" id="map"></div>
+            <div class="map-chart hidden" id="#map-container">
+                <canvas id="chart"></canvas>
+            </div>
+            <p id="today">Select a location to get its data.</p>
+            <p>All data and informations kindly provided by <a href="https://waqi.info/">World Air Quality Index
+                    project</a></p>
+        </div>
+    </div>
+    <script src="bundle.js"></script>
+</body>
+
+</html>
